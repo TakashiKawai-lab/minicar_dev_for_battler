@@ -39,12 +39,12 @@ class Motor:
         #print(steer_pwm)
         
     def limit_steer_PWM(self,steer_pwm):
-        if steer_pwm > config.STEERING_RIGHT_PWM_LIMIT:
-            print ("\n!!!警告!!! 壊さないように最大値:{}で設定ください!\n".format(config.STEERING_RIGHT_PWM_LIMIT))
-            return config.STEERING_RIGHT_PWM_LIMIT
-        elif steer_pwm < config.STEERING_LEFT_PWM_LIMIT:
-            print ("\n!!!警告!!! 壊さないように最小値:{}で設定ください!\n".format(config.STEERING_LEFT_PWM_LIMIT))
+        if steer_pwm > config.STEERING_LEFT_PWM_LIMIT:
+            print ("\n!!!警告!!! 壊さないように最大値:{}で設定ください!\n".format(config.STEERING_LEFT_PWM_LIMIT))
             return config.STEERING_LEFT_PWM_LIMIT
+        elif steer_pwm < config.STEERING_RIGHT_PWM_LIMIT:
+            print ("\n!!!警告!!! 壊さないように最小値:{}で設定ください!\n".format(config.STEERING_RIGHT_PWM_LIMIT))
+            return config.STEERING_RIGHT_PWM_LIMIT
         else:
             return steer_pwm
         
