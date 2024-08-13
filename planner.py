@@ -199,6 +199,14 @@ class Planner:
             print("output * PID:{:3.1f}, [P:{:3.1f}, I:{:3.1f}, D:{:3.1f}]".format(steer_pwm_duty_pid, self.K_P*delta_dis,self.K_D*v, self.K_I*integral_delta_dis))
         self.steer_pwm_duty, self.throttle_pwm_duty  = self.LeftHand(ultrasonic_FrLH.dis, ultrasonic_RrLH.dis)
         return steer_pwm_duty_pid*self.steer_pwm_duty, self.throttle_pwm_duty
+    
+    # 左右混合PID制御
+    def RightAndLeft_PID(self,ultrasonic_FrRH, ultrasonic_RrRH , ultrasonic_FrLH, ultrasonic_RrLH):
+        if min(ultrasonic_FrLH.dis, ultrasonic_RrLH.dis) >= min(ultrasonic_FrRH.dis, ultrasonic_RrRH.dis):   #右の壁の方が近い場合
+            self.steer_pwm_duty, self.throttle_pwm_duty = self.RightHand_PID(ultrasonic_FrRH, ultrasonic_RrRH)
+        else:
+            self.steer_pwm_duty, self.throttle_pwm_duty = self.LeftHand_PID(ultrasonic_FrLH, ultrasonic_RrLH)
+        return self.steer_pwm_duty, self.throttle_pwm_duty
 
     # Neural Netを用いた走行
     if config.HAVE_NN:
@@ -210,5 +218,17 @@ class Planner:
             self.steer_pwm_duty = int(output[0])
             self.throttle_pwm_duty = int(output[1])
 
+            ## モーターへ出力を返す
+            return self.steer_pwm_duty, self.throttle_pwm_duty
+        
+    # NN+PIDで走行(8/13 川井)
+    # TODO:PIDとNNの切り替え距離(PIDの目標値)を調整 ~.disの単位はmm
+    if config.HAVE_NNPID:
+        def NNPID(self, model, *args, ultrasonic_FrRH, ultrasonic_RrRH , ultrasonic_FrLH, ultrasonic_RrLH):
+            if min(ultrasonic_FrLH.dis, ultrasonic_RrLH.dis) <= self.DETECTION_DISTANCE_TARGET or min(ultrasonic_FrLH.dis, ultrasonic_RrLH.dis) <= self.DETECTION_DISTANCE_TARGET:
+                self.steer_pwm_duty, self.throttle_pwm_duty = self.RightAndLeft_PID(ultrasonic_FrRH, ultrasonic_RrRH , ultrasonic_FrLH, ultrasonic_RrLH)
+            else:
+                self.steer_pwm_duty, self.throttle_pwm_duty = self.NN(model, *args)
+                
             ## モーターへ出力を返す
             return self.steer_pwm_duty, self.throttle_pwm_duty

@@ -147,6 +147,9 @@ try:
         ## 左手法にPID制御を使ってスムーズに走る
         elif config.mode_plan == "LeftHand_PID":
             steer_pwm_duty, throttle_pwm_duty  = plan.LeftHand_PID(ultrasonics["FrLH"], ultrasonics["RrLH"])
+        ## 左右PIDを使って走る(8/13川井)
+        elif config.mode_plan == "RightAndLeft_PID":
+            steer_pwm_duty, throttle_pwm_duty  = plan.RightAndLeft_PID(ultrasonics["FrRH"], ultrasonics["RrRH"], ultrasonics["FrLH"], ultrasonics["RrLH"])
         ## ニューラルネットを使ってスムーズに走る
         #評価中
         elif config.mode_plan == "NN":
@@ -154,6 +157,10 @@ try:
             args = [ultrasonics[key].dis for key in config.ultrasonics_list]
             steer_pwm_duty, throttle_pwm_duty = plan.NN(model, *args)
             #steer_pwm_duty, throttle_pwm_duty  = plan.NN(model, ultrasonics["FrLH"].dis, ultrasonics["Fr"].dis, ultrasonics["FrRH"].dis)
+        ## NNPIDの呼び出し(8/13 川井)
+        elif config.mode_plan == "NNPID":
+            args = [ultrasonics[key].dis for key in config.ultrasonics_list]
+            steer_pwm_duty, throttle_pwm_duty = plan.NNPID(model, *args, ultrasonics["FrRH"], ultrasonics["RrRH"], ultrasonics["FrLH"], ultrasonics["RrLH"])
         else: 
             print("デフォルトの判断モードの選択ではありません, コードを書き換えてオリジナルのモードを実装しよう!")
             break

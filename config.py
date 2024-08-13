@@ -30,11 +30,11 @@ K_P = 0.7 #0.7
 K_I = 0.0 #0.0
 K_D = 0.3 #0.3
 
-# 判断モード選択
+# 判断モード選択(左右PIDとNNPIDを追加　川井8/13)
 model_plan_list = ["GoStraight",
                    "Right_Left_3","Right_Left_3_Records",
                    "RightHand","RightHand_PID","LeftHand","LeftHand_PID",
-                   "NN"]
+                   "RightAndLeft_PID","NN","NNPID"]
 mode_plan = "Right_Left_3"
 
 # 判断モード関連パラメータ
@@ -122,6 +122,10 @@ N_ultrasonics = len(ultrasonics_list)
 # NNパラメータ
 HAVE_NN = False
 if mode_plan == "NN": HAVE_NN = True
+
+# NN+PIDパラメータを追加(8/13川井)
+HAVE_NNPID = False
+if mode_plan == "NNPID": HAVE_NNPID = True
 
 ## 学習済みモデルのパス
 model_dir = "models"
