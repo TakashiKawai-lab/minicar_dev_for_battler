@@ -222,7 +222,7 @@ class Planner:
             return self.steer_pwm_duty, self.throttle_pwm_duty
         
     # NN+PIDで走行(8/13 川井)
-    # TODO:PIDとNNの切り替え距離(PIDの目標値)を調整 ~.disの単位はmm
+    ############# TODO:PIDとNNの切り替え距離(PIDの目標値)を調整 ~.disの単位はmm#################
     if config.HAVE_NNPID:
         def NNPID(self, model, *args, ultrasonic_FrRH, ultrasonic_RrRH , ultrasonic_FrLH, ultrasonic_RrLH):
             if min(ultrasonic_FrLH.dis, ultrasonic_RrLH.dis) <= self.DETECTION_DISTANCE_TARGET or min(ultrasonic_FrLH.dis, ultrasonic_RrLH.dis) <= self.DETECTION_DISTANCE_TARGET:
