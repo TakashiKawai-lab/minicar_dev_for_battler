@@ -155,7 +155,7 @@ bins_Str[-1] = 100
 HAVE_CONTROLLER = True #True
 JOYSTICK_STEERING_SCALE = -1.0
 JOYSTICK_THROTTLE_SCALE = -1.0 
-#CONTROLLER_TYPE = 'F710'            
+CONTROLLER_TYPE = 'F710'   # F710かDS4を入力         
 JOYSTICK_DEVICE_FILE = "/dev/input/js0" 
 ## ジョイスティックのボタンとスティック割り当て
 # F710の操作設定 #割り当て済み
@@ -174,6 +174,28 @@ JOYSTICK_AXIS_LEFT = 0 #ステアリング（左右）
 JOYSTICK_AXIS_RIGHT = 4 #スロットル（上下）
 JOYSTICK_HAT_LR = 0
 JOYSTICK_HAT_DU = 1
+
+# DualShock4の操作設定 TODO ラズパイで確かめる
+DS4_CROSS = 0 #アクセル１
+DS4_CIRCLE = 1 #アクセル２
+DS4_SQUARE = 2 #ブレーキ
+DS4_TRIANGLE = 3 #記録停止開始
+DS4_L1 = 9
+DS4_R1 = 10
+DS4_L2 = 4
+DS4_R2 = 5 #自動/手動走行切り替え
+DS4_SHARE = 4
+DS4_OPTION = 6
+DS4_LSTICKBUTTON = 7
+DS4_RSTICKBUTTON = 8
+DS4_PS = 5
+DS4_PAD = 15
+DS4_AXIS_LEFT = 0 #ステアリング（左スティック左右）
+DS4_AXIS_RIGHT = 3 #スロットル（右スティック上下）
+DS4_HAT_UP = 11 # 十字キー左
+DS4_HAT_DOWN = 12 # 十字キー右
+DS4_HAT_L = 13 # 十字キー左
+DS4_HAT_R = 14 # 十字キー右
 
 # カメラの設定
 HAVE_CAMERA = False

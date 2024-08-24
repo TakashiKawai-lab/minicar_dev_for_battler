@@ -8,13 +8,22 @@ import numpy as np
 class Joystick(object):
     def __init__(self, dev_fn=config.JOYSTICK_DEVICE_FILE):
         self.HAVE_CONTROLLER = True
-        self.stick_left = config.JOYSTICK_AXIS_LEFT
-        self.stick_right = config.JOYSTICK_AXIS_RIGHT
-        self.button_Y = config.JOYSTICK_Y
-        self.button_X = config.JOYSTICK_X
-        self.button_A = config.JOYSTICK_A
-        self.button_B = config.JOYSTICK_B
-        self.button_S = config.JOYSTICK_S
+        if config.CONTROLLER_TYPE == 'F710':
+            self.stick_left = config.JOYSTICK_AXIS_LEFT
+            self.stick_right = config.JOYSTICK_AXIS_RIGHT
+            self.button_Y = config.JOYSTICK_Y
+            self.button_X = config.JOYSTICK_X
+            self.button_A = config.JOYSTICK_A
+            self.button_B = config.JOYSTICK_B
+            self.button_S = config.JOYSTICK_S
+        elif config.CONTROLLER_TYPE == 'DS4':
+            self.stick_left = config.DS4_AXIS_LEFT
+            self.stick_right = config.DS4_AXIS_RIGHT
+            self.button_Y = config.DS4_TRIANGLE
+            self.button_X = config.DS4_SQUARE
+            self.button_A = config.DS4_CROSS
+            self.button_B = config.DS4_CIRCLE
+            self.button_S = config.DS4_OPTION
         self.steer = 0.
         self.accel = 0.
         self.accel1 = 0.
